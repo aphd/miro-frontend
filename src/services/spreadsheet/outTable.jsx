@@ -7,9 +7,6 @@
 import React from "react";
 
 class OutTable extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className="table-responsive">
