@@ -4,11 +4,16 @@ export const plotConfig = plotName => {
     return cfg[plotName] || cfg.default;
 };
 
-const getDefaultCfg = function() {
+const getLabels = function() {
     const labels = this.find(obj => obj.type === "s");
+    return labels ? labels.data.slice(1) : this.map(o => o.head);
+};
+
+const defaultCfg = function() {
+    const labels = getLabels.bind(this)();
     const numbers = this.filter(obj => obj.type === "n");
     return {
-        labels: labels.data.slice(1),
+        labels: labels,
         datasets: numbers.map(obj => ({
             label: obj.data[0],
             data: obj.data.slice(1)
@@ -28,5 +33,5 @@ const bubbleOrScatter = function() {
 const cfg = {
     Bubble: bubbleOrScatter,
     Scatter: bubbleOrScatter,
-    default: getDefaultCfg
+    default: defaultCfg
 };
