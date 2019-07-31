@@ -7,7 +7,7 @@ export function renderPlot(cols) {
         return getPlots().map((plot, i) => {
             return React.createElement(
                 "div",
-                { className: "col-md", key: i },
+                { className: "col-lg-4 col-md-6", key: i },
                 React.createElement(plot, {
                     key: i,
                     data: getConfig(cols, plot.name)
