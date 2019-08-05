@@ -23,6 +23,7 @@ function getConfig(cols, plotName) {
 }
 
 function getPlots() {
+    // TODO will be possible to get the list from PLOT?
     return [
         BoxPlot,
         Plot.Doughnut,
