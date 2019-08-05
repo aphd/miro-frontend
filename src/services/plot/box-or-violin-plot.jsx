@@ -8,9 +8,7 @@ class BoxOrViolinPlot extends React.Component {
     }
 
     componentDidMount() {
-        const ctx = this.canvas.current.getContext("2d");
-        const Chart = window.Chart; // TODO see the issue https://github.com/jerairrest/react-chartjs-2/issues/424
-        new Chart(ctx, this.props.data);
+        new window.Chart(this.canvas.current.getContext("2d"), this.props.data); // TODO see the issue https://github.com/jerairrest/react-chartjs-2/issues/424
     }
 
     render() {
