@@ -4,6 +4,24 @@ export const plotConfig = plotName => {
     return cfg[plotName] || cfg.default;
 };
 
+const boxPlot = function() {
+    const rows = this.filter(o => o.type === "n").map(o => o.data);
+    const labels = rows.map(o => o[0]);
+    const numbers = rows.map(o => o.slice(1)).map(o => o.map(s => Number(s)));
+    return {
+        type: "boxplot",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    borderColor: "red",
+                    data: numbers
+                }
+            ]
+        }
+    };
+};
+
 const getLabels = function() {
     const labels = this.find(obj => obj.type === "s");
     return labels ? labels.data.slice(1) : this.map(o => o.head);
@@ -33,5 +51,6 @@ const bubbleOrScatter = function() {
 const cfg = {
     Bubble: bubbleOrScatter,
     Scatter: bubbleOrScatter,
+    BoxPlot: boxPlot,
     default: defaultCfg
 };

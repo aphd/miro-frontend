@@ -1,6 +1,7 @@
 import React from "react";
 import * as Plot from "react-chartjs-2";
 import { plotConfig } from "./plotConfig";
+import BoxPlot from "./box-plot";
 
 export function renderPlot(cols) {
     if (cols.length > 0) {
@@ -23,6 +24,7 @@ function getConfig(cols, plotName) {
 
 function getPlots() {
     return [
+        BoxPlot,
         Plot.Doughnut,
         Plot.Pie,
         Plot.Radar,
