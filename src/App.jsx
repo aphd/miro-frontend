@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import SheetJSApp from "./services/spreadsheet";
 import { renderPlot } from "./services/plot";
+import Reducer from "./reducer";
 
 class App extends React.Component {
     state = {
@@ -9,7 +10,8 @@ class App extends React.Component {
         cols: []
     };
     handleLoadFile = state => {
-        this.setState(state);
+        this.setState(this);
+        new Reducer(state);
     };
 
     render() {

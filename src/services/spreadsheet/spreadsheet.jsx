@@ -19,7 +19,7 @@ class Spreadsheet extends React.Component {
             data: [] /* Array of Arrays e.g. [["a","b"],[1,2]] */,
             cols: [] /* Array of column objects e.g. { name: "C", K: 2 } */
         };
-        this.LIMIT = 10;
+        this.LIMIT = 50;
         this.handleFile = this.handleFile.bind(this);
     }
     handleFile(file /*:File*/) {
@@ -49,20 +49,31 @@ class Spreadsheet extends React.Component {
         else reader.readAsArrayBuffer(file);
     }
     /* generate an array of all spreadsheet data */
+
+    get_data = (ws, name) =>
+        Object.keys(ws)
+            .filter(cellName => cellName.match(name))
+            .map(cellName => ws[cellName].w)
+            .slice(0, this.LIMIT);
+
     get_cols = ws => {
         let o = [],
             C = XLSX.utils.decode_range(ws["!ref"]).e.c + 1;
         for (var i = 0; i < C; ++i) {
             const name = XLSX.utils.encode_col(i);
+            let data = this.get_data(ws, name);
+            const type = ws[name + "2"].t;
+            data =
+                type === "n"
+                    ? data.map((o, i) => (i > 0 ? Number(o) : o))
+                    : data;
             o[i] = {
                 name: name,
                 head: ws[name + "1"].w,
                 key: i,
-                type: ws[name + "2"].t,
-                data: Object.keys(ws)
-                    .filter(cellName => cellName.match(name))
-                    .map(cellName => ws[cellName].w)
-                    .slice(0, this.LIMIT)
+                type: type,
+                distinctValuesCount: Array.from(new Set(data.slice(1))).length,
+                data: data
             };
         }
         return o;
