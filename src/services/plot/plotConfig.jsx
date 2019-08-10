@@ -1,56 +1,83 @@
-import { zipWith } from "lodash";
+import React from "react";
+import * as Plot from "react-chartjs-2";
+import BoxPlot from "./box-plot";
+import _ from "lodash";
 
-export const plotConfig = plotName => {
-    return cfg[plotName] || cfg.default;
-};
-
-const boxPlot = function() {
-    const rows = this.filter(o => o.type === "n").map(o => o.data);
-    const labels = rows.map(o => o[0]);
-    const numbers = rows.map(o => o.slice(1)).map(o => o.map(s => Number(s)));
-    return {
-        type: "boxplot",
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    borderColor: "red",
-                    data: numbers
-                }
-            ]
-        }
-    };
-};
-
-const getLabels = function() {
-    const labels = this.find(obj => obj.type === "s");
-    return labels ? labels.data.slice(1) : this.map(o => o.head);
-};
-
-const defaultCfg = function() {
-    const labels = getLabels.bind(this)();
-    const numbers = this.filter(obj => obj.type === "n");
-    return {
-        labels: labels,
-        datasets: numbers.map(obj => ({
-            label: obj.data[0],
-            data: obj.data.slice(1)
-        }))
-    };
-};
-
-const bubbleOrScatter = function() {
-    return {
-        datasets: zipWith(
-            ...this.map(obj => obj.data.slice(1)),
-            (l, x, y, r) => ({ label: l, data: [{ x: x, y: y, r: r }] })
-        )
-    };
+export const plotMatch = o => {
+    return cfg[o.normalized](o);
 };
 
 const cfg = {
-    Bubble: bubbleOrScatter,
-    Scatter: bubbleOrScatter,
-    BoxPlot: boxPlot,
-    default: defaultCfg
+    n1P: pie,
+    s1P: pie,
+    n2P: bar,
+    s2P: bar,
+    n3P: box
 };
+
+function pie(o) {
+    return React.createElement(Plot.Pie, {
+        // key: i,
+        data: getConfigDefault(_.countBy(o.data.slice(1)))
+    });
+}
+
+function bar(o) {
+    return React.createElement(Plot.Bar, {
+        // key: i,
+        data: getConfigDefault(_.countBy(o.data.slice(1)))
+    });
+}
+
+function box(o) {
+    return React.createElement(BoxPlot, {
+        // key: i,
+        data: getConfigBox(o)
+    });
+}
+
+function getConfigDefault(data) {
+    return {
+        labels: Object.keys(data),
+        datasets: [
+            {
+                data: Object.values(data),
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+            }
+        ]
+    };
+}
+
+function getConfigBox(o) {
+    return {
+        type: "boxplot",
+        data: {
+            datasets: [
+                {
+                    label: o.data[0],
+                    borderColor: "red",
+                    borderWidth: 1,
+                    outlierRadius: 3,
+                    itemRadius: 3,
+                    outlierColor: "#999999",
+                    data: [o.data.slice(1)]
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: "top"
+            },
+            scales: {
+                xAxes: [
+                    {
+                        categoryPercentage: 0.9,
+                        barPercentage: 0.8
+                    }
+                ]
+            }
+        }
+    };
+}

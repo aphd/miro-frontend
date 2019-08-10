@@ -19,7 +19,7 @@ class Spreadsheet extends React.Component {
             data: [] /* Array of Arrays e.g. [["a","b"],[1,2]] */,
             cols: [] /* Array of column objects e.g. { name: "C", K: 2 } */
         };
-        this.LIMIT = 550;
+        this.LIMIT = 1000;
         this.handleFile = this.handleFile.bind(this);
     }
     handleFile(file /*:File*/) {

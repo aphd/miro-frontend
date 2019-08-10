@@ -7,7 +7,7 @@ class Reducer extends React.Component {
             .filter(o => !this.arePK(o))
             .filter(o => !this.areManyCategorical(o));
         this.normalize();
-        window.miro = this.props;
+        return this.props;
     }
     areFLoat = nums => {
         return nums.some(num => num % 1 !== 0);
@@ -33,7 +33,7 @@ class Reducer extends React.Component {
             replaceMap.set(/^[4-9]$/, "2P");
             replaceMap.set(/^[1-9]\d{1,}$/, "3P");
             replaceMap.forEach(function(newString, old) {
-                result = result.replace(old, newString);
+                result = result.replace(old, o.type + newString);
             });
             o.normalized = result;
         });
