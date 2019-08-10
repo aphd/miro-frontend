@@ -24,14 +24,12 @@ function pie(o) {
 
 function bar(o) {
     return React.createElement(Plot.Bar, {
-        // key: i,
         data: getConfigDefault(_.countBy(o.data.slice(1)))
     });
 }
 
 function box(o) {
     return React.createElement(BoxPlot, {
-        // key: i,
         data: getConfigBox(o)
     });
 }
