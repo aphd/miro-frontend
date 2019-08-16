@@ -2,6 +2,13 @@ import React from "react";
 import { plotMatch } from "./plotConfig";
 
 export function renderPlot(cols) {
+    if (cols.length > 0) {
+        cols = cols.concat({
+            normalized: "heatMap",
+            data: cols.map(o => o.data)
+        });
+    }
+
     return cols.map((o, i) => {
         return React.createElement(
             "div",
