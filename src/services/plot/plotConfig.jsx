@@ -1,7 +1,9 @@
 import React from "react";
 import * as Plot from "react-chartjs-2";
 import BoxPlot from "./box-plot";
+import HeatMap from "./heat-map";
 import _ from "lodash";
+import Highcharts from "highcharts/highmaps";
 
 export const plotMatch = o => {
     return cfg[o.normalized](o);
@@ -12,7 +14,8 @@ const cfg = {
     s1P: pie,
     n2P: bar,
     s2P: bar,
-    n3P: box
+    n3P: box,
+    heatMap: heatMap
 };
 
 function pie(o) {
@@ -47,7 +50,14 @@ function getConfigDefault(data) {
     };
 }
 
+function heatMap(o) {
+    return React.createElement(HeatMap, {
+        options: getConfigHeatMap(o)
+    });
+}
+
 function getConfigBox(o) {
+    // TODO hardcoding
     return {
         type: "boxplot",
         data: {
@@ -77,5 +87,53 @@ function getConfigBox(o) {
                 ]
             }
         }
+    };
+}
+
+function getConfigHeatMap(o) {
+    window.o = o;
+    return {
+        title: {
+            text: null
+        },
+        chart: {
+            type: "heatmap"
+        },
+        xAxis: {
+            categories: ["Alexander", "Marie"]
+        },
+
+        yAxis: {
+            categories: ["Monday", "Tuesday"]
+        },
+        colorAxis: {
+            min: 0,
+            minColor: "#FFFFFF",
+            maxColor: Highcharts.getOptions().colors[0]
+        },
+
+        tooltip: {
+            formatter: function() {
+                return (
+                    "<b>" +
+                    this.series.xAxis.categories[this.point.x] +
+                    "</b> sold <br><b>" +
+                    this.point.value +
+                    "</b> items on <br><b>" +
+                    this.series.yAxis.categories[this.point.y] +
+                    "</b>"
+                );
+            }
+        },
+        series: [
+            {
+                borderWidth: 1,
+                data: [[0, 0, 10], [0, 1, 19], [1, 0, 92], [1, 1, 58]],
+                dataLabels: {
+                    enabled: true,
+                    color: "#000000"
+                }
+            }
+        ]
     };
 }

@@ -27,7 +27,7 @@ class Reducer extends React.Component {
     }
     normalize() {
         this.props.map(o => {
-            let result = new String(o.distinctValuesCount);
+            let result = String(o.distinctValuesCount);
             let replaceMap = new Map();
             replaceMap.set(/^[1-3]$/, "1P");
             replaceMap.set(/^[4-9]$/, "2P");
