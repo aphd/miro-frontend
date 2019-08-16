@@ -1,5 +1,9 @@
 import React from "react";
-import { plotMatch } from "./plotConfig";
+import _ from "lodash";
+import Bar from "./bar";
+import Pie from "./pie";
+import Box from "./box";
+import HeatMap from "./heat-map";
 
 export function renderPlot(cols) {
     if (cols.length > 0) {
@@ -18,3 +22,16 @@ export function renderPlot(cols) {
         );
     });
 }
+
+const plotMatch = o => {
+    return new cfg[o.normalized](o);
+};
+
+const cfg = {
+    n1P: Pie,
+    s1P: Pie,
+    n2P: Bar,
+    s2P: Bar,
+    n3P: Box,
+    heatMap: HeatMap
+};
