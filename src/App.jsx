@@ -16,7 +16,9 @@ class App extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="row">{renderPlot(this.state.cols)}</div>
+                {this.state.cols.length > 0 && (
+                    <div className="row">{renderPlot(this.state.cols)}</div>
+                )}
                 <SheetJSApp
                     data={this.state.data}
                     onLoadFile={this.handleLoadFile}
