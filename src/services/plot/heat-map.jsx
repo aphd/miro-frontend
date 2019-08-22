@@ -3,9 +3,8 @@ import Highcharts from "highcharts/highmaps";
 import HighchartsReact from "highcharts-react-official";
 
 class HeatMap extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props = props;
+    acceptedDataframe = () => "heatMap";
+    render(props) {
         return React.createElement(HighchartsReactHeatMap, {
             options: getConfigHeatMap(this.props)
         });
