@@ -1,12 +1,13 @@
 import React from "react";
 import Highcharts from "highcharts/highmaps";
 import HighchartsReact from "highcharts-react-official";
+import { pearsonCorrelation } from "../../utils";
 
 class HeatMap extends React.Component {
     acceptedDataframe = () => "heatMap";
     render(props) {
         return React.createElement(HighchartsReactHeatMap, {
-            options: getConfigHeatMap(this.props)
+            options: getConfigHeatMap(props)
         });
     }
 }
@@ -26,8 +27,23 @@ class HighchartsReactHeatMap extends React.Component {
     }
 }
 
-function getConfigHeatMap(o) {
-    window.o = o;
+function transformData(data, categories) {
+    return [].concat(
+        ...data.map((v, i) =>
+            data
+                .slice(i + 1)
+                .map((w, j) => [
+                    categories.indexOf(v[0]),
+                    categories.indexOf(w[0]),
+                    pearsonCorrelation(v.slice(1), w.slice(1)).toFixed(1)
+                ])
+        )
+    );
+}
+
+function getConfigHeatMap(props) {
+    let data = props.data;
+    let categories = data.map(v => v[0]);
     return {
         title: {
             text: null
@@ -36,18 +52,16 @@ function getConfigHeatMap(o) {
             type: "heatmap"
         },
         xAxis: {
-            categories: ["Alexander", "Marie"]
+            categories: categories
         },
-
         yAxis: {
-            categories: ["Monday", "Tuesday"]
+            categories: categories
         },
         colorAxis: {
             min: 0,
             minColor: "#FFFFFF",
             maxColor: Highcharts.getOptions().colors[0]
         },
-
         tooltip: {
             formatter: function() {
                 return (
@@ -64,7 +78,7 @@ function getConfigHeatMap(o) {
         series: [
             {
                 borderWidth: 1,
-                data: [[0, 0, 10], [0, 1, 19], [1, 0, 92], [1, 1, 58]],
+                data: transformData(data, categories),
                 dataLabels: {
                     enabled: true,
                     color: "#000000"

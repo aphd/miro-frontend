@@ -12,7 +12,6 @@ export function renderPlot(cols) {
         data: cols.map(o => o.data)
     });
     return cols.map((o, i) => {
-        console.log(o.normalized);
         return React.createElement(
             "div",
             { className: "col-lg-4 col-md-6", key: i },
