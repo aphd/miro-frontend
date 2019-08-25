@@ -2,6 +2,7 @@ import React from "react";
 import Highcharts from "highcharts/highmaps";
 import HighchartsReact from "highcharts-react-official";
 import { pearsonCorrelation } from "../../utils";
+import _ from "lodash";
 
 class HeatMap extends React.Component {
     acceptedDataframe = () => "heatMap";
@@ -28,6 +29,7 @@ class HighchartsReactHeatMap extends React.Component {
 }
 
 function transformData(data, categories) {
+    data = getNumericValues(data);
     return [].concat(
         ...data.map((v, i) =>
             data
@@ -86,6 +88,16 @@ function getConfigHeatMap(props) {
             }
         ]
     };
+}
+
+function getNumericValues(data) {
+    return data.map(v => {
+        if (typeof v[1] === "string") {
+            const uniq_v = _.uniq(v.slice(1));
+            return [v[0]].concat(v.slice(1).map(w => uniq_v.indexOf(w)));
+        }
+        return v;
+    });
 }
 
 export default HeatMap;
