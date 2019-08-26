@@ -37,7 +37,9 @@ function transformData(data, categories) {
                 .map((w, j) => [
                     categories.indexOf(v[0]),
                     categories.indexOf(w[0]),
-                    pearsonCorrelation(v.slice(1), w.slice(1)).toFixed(1)
+                    Math.abs(
+                        pearsonCorrelation(v.slice(1), w.slice(1)).toFixed(1)
+                    )
                 ])
         )
     );
