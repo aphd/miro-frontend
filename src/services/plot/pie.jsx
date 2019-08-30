@@ -6,7 +6,13 @@ class Pie extends React.Component {
     acceptedDataframe = () => ["n1P", "s1P"];
     render(props) {
         return React.createElement(Plot.Pie, {
-            data: getConfigDefault(_.countBy(props.data.slice(1)))
+            data: getConfigDefault(_.countBy(props.data.slice(1))),
+            options: {
+                title: {
+                    display: true,
+                    text: props.data[0]
+                }
+            }
         });
     }
 }
