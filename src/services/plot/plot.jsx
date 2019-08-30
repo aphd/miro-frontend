@@ -7,16 +7,20 @@ export function renderPlot(cols) {
         let aDFs = Reflect.construct(className, [])["acceptedDataframe"]();
         aDFs.forEach(aDF => (plotDispatcher[aDF] = className));
     });
-    cols = cols.concat({
-        normalized: "heatMap",
-        data: cols.map(o => o.data)
-    });
-    return cols.map((o, i) => {
-        return React.createElement(
-            "div",
-            { className: "col-lg-4 col-md-6", key: i },
-            React.createElement("h4", { className: "text-center" }, o.data[0]),
-            Reflect.construct(plotDispatcher[o.normalized], [])["render"](o)
-        );
-    });
+    cols = [
+        {
+            normalized: "heatMap",
+            data: cols.map(o => o.data),
+            className: "col-lg-12 col-md-12"
+        }
+    ].concat(cols);
+    return cols.map(
+        (o, i) =>
+            plotDispatcher[o.normalized] && // Add plot class for d1P, d*P
+            React.createElement(
+                "div",
+                { className: o.className || "col-lg-4 col-md-6", key: i },
+                Reflect.construct(plotDispatcher[o.normalized], [])["render"](o)
+            )
+    );
 }
