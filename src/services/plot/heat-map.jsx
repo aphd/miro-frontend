@@ -5,7 +5,7 @@ import { pearsonCorrelation } from "../../utils";
 import _ from "lodash";
 
 class HeatMap extends React.Component {
-    acceptedDataframe = () => ["heatMap"];
+    acceptedDataframe = () => "heatMap";
     render(props) {
         return React.createElement(HighchartsReactHeatMap, {
             options: getConfigHeatMap(props)
