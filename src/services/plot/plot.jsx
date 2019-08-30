@@ -4,8 +4,8 @@ import * as Plot from "../../services/plot/index.jsx";
 export function renderPlot(cols) {
     let plotDispatcher = {};
     Object.values(Plot).forEach(className => {
-        let acceptedDataframes = new className().acceptedDataframe().split(",");
-        acceptedDataframes.forEach(aDF => (plotDispatcher[aDF] = className));
+        let aDFs = Reflect.construct(className, [])["acceptedDataframe"]();
+        aDFs.forEach(aDF => (plotDispatcher[aDF] = className));
     });
     cols = [
         {

@@ -4,7 +4,7 @@ import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 import BoxPlot from "./box-plot";
 
 class Box extends React.Component {
-    acceptedDataframe = () => "n3P";
+    acceptedDataframe = () => ["n3P"];
     render(props) {
         return React.createElement(BoxPlot, {
             data: getConfigBox(props)
