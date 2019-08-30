@@ -6,7 +6,13 @@ class Bar extends React.Component {
     acceptedDataframe = () => ["n2P", "s2P"];
     render(props) {
         return React.createElement(Plot.Bar, {
-            data: getConfigDefault(_.countBy(props.data.slice(1)))
+            data: getConfigDefault(_.countBy(props.data.slice(1))),
+            options: {
+                title: {
+                    display: true,
+                    text: props.data[0]
+                }
+            }
         });
     }
 }
