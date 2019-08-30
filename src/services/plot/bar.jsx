@@ -3,7 +3,7 @@ import _ from "lodash";
 import * as Plot from "react-chartjs-2";
 
 class Bar extends React.Component {
-    acceptedDataframe = () => ["n2P", "s2P"];
+    acceptedDataframe = () => "n2P,s2P";
     render(props) {
         return React.createElement(Plot.Bar, {
             data: getConfigDefault(_.countBy(props.data.slice(1)))

@@ -3,7 +3,7 @@ import _ from "lodash";
 import * as Plot from "react-chartjs-2";
 
 class Pie extends React.Component {
-    acceptedDataframe = () => ["n1P", "s1P"];
+    acceptedDataframe = () => "n1P,s1P";
     render(props) {
         return React.createElement(Plot.Pie, {
             data: getConfigDefault(_.countBy(props.data.slice(1)))
