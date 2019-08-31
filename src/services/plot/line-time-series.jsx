@@ -5,9 +5,9 @@ import _ from "lodash";
 
 class LineTimeSeries extends React.Component {
     acceptedDataframe = () => ["d3P"];
-    render(props) {
+    render(props, cols) {
         return React.createElement(HighchartsReactPlot, {
-            options: getConfig(props)
+            options: getConfig(props, cols)
         });
     }
 }
@@ -27,26 +27,18 @@ class HighchartsReactPlot extends React.Component {
     }
 }
 
-function getConfig(props) {
+function getConfig(props, cols) {
     return {
         title: {
             text: "Line Time Series"
         },
-        series: [
-            {
-                data: getData()
-            }
-        ]
+        xAxis: {
+            categories: props.data.slice(1)
+        },
+        series: cols
+            .filter(o => o.normalized === "n3P")
+            .map(o => ({ name: o.data[0], data: o.data.slice(1) }))
     };
-}
-
-function getData() {
-    return [
-        [1167609600000, 0.7537],
-        [1167696000000, 0.7537],
-        [1167782400000, 0.7559],
-        [1167868800000, 0.7631]
-    ];
 }
 
 export default LineTimeSeries;
