@@ -7,13 +7,13 @@ import _ from "lodash";
 class HeatMap extends React.Component {
     acceptedDataframe = () => ["heatMap"];
     render(props) {
-        return React.createElement(HighchartsReactHeatMap, {
+        return React.createElement(HighchartsReactPlot, {
             options: getConfigHeatMap(props)
         });
     }
 }
 
-class HighchartsReactHeatMap extends React.Component {
+class HighchartsReactPlot extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;

@@ -16,11 +16,14 @@ export function renderPlot(cols) {
     ].concat(cols);
     return cols.map(
         (o, i) =>
-            plotDispatcher[o.normalized] && // Add plot class for d1P, d*P
+            plotDispatcher[o.normalized] &&
             React.createElement(
                 "div",
                 { className: o.className || "col-lg-4 col-md-6", key: i },
-                Reflect.construct(plotDispatcher[o.normalized], [])["render"](o)
+                Reflect.construct(plotDispatcher[o.normalized], [])["render"](
+                    o,
+                    cols
+                )
             )
     );
 }
