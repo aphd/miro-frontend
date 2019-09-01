@@ -35,7 +35,7 @@ class Reducer extends React.Component {
             replaceMap.forEach(function(newString, old) {
                 result = result.replace(old, o.type + newString);
             });
-            o.normalized = result;
+            o.type = result;
         });
     }
 }

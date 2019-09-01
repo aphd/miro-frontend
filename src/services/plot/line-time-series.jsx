@@ -36,7 +36,7 @@ function getConfig(props, cols) {
             categories: props.data.slice(1)
         },
         series: cols
-            .filter(o => o.normalized === "n3P")
+            .filter(o => o.type === "n3P")
             .map(o => ({ name: o.data[0], data: o.data.slice(1) }))
     };
 }
