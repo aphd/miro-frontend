@@ -11,6 +11,15 @@ class Bar extends React.Component {
                 title: {
                     display: true,
                     text: props.data[0]
+                },
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
                 }
             }
         });
@@ -24,8 +33,11 @@ function getConfigDefault(data) {
         datasets: [
             {
                 data: Object.values(data),
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                backgroundColor: Array.from(
+                    { length: Object.keys(data).length },
+                    () =>
+                        "#" + Math.floor(Math.random() * 16777215).toString(16)
+                )
             }
         ]
     };
